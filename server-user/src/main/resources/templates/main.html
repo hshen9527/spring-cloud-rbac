@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="default.css" th:href=@{~/default.css} rel="stylesheet" type="text/css" media="all" />
+<link href="fonts.css" th:href=@{~/fonts.css} rel="stylesheet" type="text/css" media="all" />
+
+</head>
+<body>
+<div id="page" class="container">
+	<div id="header">
+		<div id="menu">
+			<ul class="current_page_item">
+				<li th:each="menu : ${user.menus}">
+					<span th:if = "${menu eq '客户管理'}">
+					<a href="#" accesskey="1" title="">客户管理</a>
+					</span>
+				</li>
+				<li th:each="menu : ${user.menus}">
+					<span th:if = "${menu eq '系统设置'}">
+					<a href="#" accesskey="2" title="">系统设置</a>
+					</span>
+				</li>
+				<li th:each="menu : ${user.menus}">
+					<span th:if = "${menu eq '角色管理'}">
+					<a href="#" accesskey="3" title="">角色管理</a>
+					</span>
+				</li>
+				<li th:each="menu : ${user.menus}">
+					<span th:if = "${menu eq '订单管理'}">
+					<a href="#" accesskey="4" title="">订单管理</a>
+					</span>
+				</li>
+				<li th:each="menu : ${user.menus}">
+					<span th:if = "${menu eq '部门管理'}">
+					<a href="#" accesskey="5" title="">部门管理</a>
+					</span>
+				</li>
+				<li th:each="menu : ${user.menus}">
+					<span th:if = "${menu eq '销售管理'}">
+					<a href="#" accesskey="6" title="">销售管理</a>
+					</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="main">
+		<div id="user-role-msg">
+			<span th:text="'登录成功，欢迎：' + ${user.username}"></span>
+			<span th:text="'你的身份是' + ${user.role}"></span>
+		</div>
+		<div id="user-role-menu">
+			<div th:each="menu : ${user.menus}">
+				<span th:text = "'*' + ${menu}"></span>
+			</d>
+		</div>
+	</div>
+	</div>
+</div>
+<div style="display:none">
+	<script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'>
+
+	</script>
+</div>
+</body>
+</html>

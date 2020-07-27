@@ -1,0 +1,47 @@
+  
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>用户登录</title>
+    <meta property="mfw:partner-platform" content="">
+    <link href="https://css.mafengwo.net/css/cv/css+login+login_v2:mobile+css+omc+login-omc+login-omc^ZlY^1526627473.css"
+          rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="wrapper">
+    <div class="container">
+        <div class="signup-forms">
+            <div class="signup-box">
+                <div class="add-info">
+                    <div class="hd">用户登录</div>
+                    <form th:action="@{/user/login}" method="post" id="_j_login_form" name="fileForm">
+                        <div class="form-field">
+                            <input name="username" type="text" placeholder="您的账号" autocomplete="off"
+                                   data-verification-name="帐号"
+                                   class="verification[required,maxSize[50],funcCall[checkShowCode]]" value=""/>
+                        </div>
+                        <div class="form-field">
+                            <input name="password" type="password" placeholder="您的密码"
+                                   autocomplete="off"
+                                   data-verification-name="密码" class="verification[required,minSize[4],maxSize[50]]"/>
+                        </div>
+
+                        <div class="submit-btn">
+                            <button class="btn-submit" onclick="submitBtnClick()">登陆</button>
+                            <script type="text/javascript">
+                                function submitBtnClick() {
+                                    //提交表单
+                                    document.fileForm.submit();
+                                }
+                            </script>
+                        </div>
+                        <div class="err-tip"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
