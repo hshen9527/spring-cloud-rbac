@@ -88,6 +88,6 @@ public class UserController {
     public String register(@ModelAttribute("registerForm") RegisterFormVO registerForm, Model model, HttpSession session){
         System.out.println(registerForm.getRole());
 
-        return "/login";
+        return "/test";
     }
 }
