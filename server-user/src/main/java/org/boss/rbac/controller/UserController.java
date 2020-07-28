@@ -1,20 +1,21 @@
 package org.boss.rbac.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.boss.rbac.pojo.dto.UserDTO;
-import org.boss.rbac.pojo.po.RoleMenu;
-import org.boss.rbac.pojo.po.UserPO;
-import org.boss.rbac.pojo.vo.UserVO;
+import org.boss.rbac.pojo.vo.LoginFormVO;
+import org.boss.rbac.pojo.vo.RegisterFormVO;
 import org.boss.rbac.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import sun.rmi.log.LogInputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -22,60 +23,71 @@ public class UserController {
 
     /**
      * 跳转到index.html
-     * @return
-     */
-    @GetMapping("/user")
-    public String login(){
-        return "/login";
-    }
-
-    /**
-     * 获取前端表格传来的账号密码信息
-     * 进行登录的一个判断
+     * 判断session中存了用户登录信息没
+     * 存了只填username
      *
-     * @param request
      * @param model
      * @param session
      * @return
      */
-    @PostMapping("/user/login")
-    public String login(HttpServletRequest request, Model model, HttpSession session){
-        // 这里密码应加密
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    @GetMapping("/login")
+    public String login(Model model, HttpSession session){
+        // index.html需要一个loginForm来存储登录信息
+        model.addAttribute("loginForm", new LoginFormVO());
+        return "/login";
+    }
 
-        if (!(username.equals("") || password.equals(""))){
-            if (check(userService.getUser(username).getPassword(), password)){
-                // 判断用户角色，取得用户权限
-                UserDTO userDTO = new UserDTO(userService.getUser(username), userService.getlist(userService.getUser(username).getRole()));
-                UserVO userVO = new UserVO(userDTO);
+    /**
+     * 实现用户注册
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/register")
+    public String register(Model model){
+        // register.html需要一个registerForm来存储注册信息
+        model.addAttribute("registerForm", new RegisterFormVO());
+        return "/register";
+    }
+
+
+    /**
+     * 实现用户登录功能
+     * HttpServletRequest request
+     *
+     * @param loginForm
+     * @param model
+     * @param session
+     * @return
+     */
+    @PostMapping("/account/login")
+    public String login(@ModelAttribute("loginForm") LoginFormVO loginForm, Model model, HttpSession session){
+        if (!(loginForm.getUsername().equals("") || loginForm.getPassword().equals(""))){
+            UserDTO userDTO = userService.query(loginForm.getUsername());
+            if (userDTO.getPassword().equals(loginForm.getPassword())){
                 model.addAttribute("user", userDTO);
+                session.setAttribute("user", userDTO);
                 return "/main";
             } else {
-                model.addAttribute("msg", "账号或密码错误");
-                return "/login";
+                return "/test";
             }
         } else {
-            model.addAttribute("msg", "账号密码不能为空");
-            return "/login";
+            return "/test";
         }
     }
 
-    // 由于密码进行了加密这里要用function进行判断
-    private boolean check(String userPass, String password){
-        if (userPass.equals(password)){
-            return true;
-        } else {
-            return false;
-        }
-    }
+    /**
+     * 实现用户注册功能
+     *
+     * @param registerForm
+     * @param model
+     * @param session
+     * @return
+     */
+    @PostMapping("/account/register")
+    public String register(@ModelAttribute("registerForm") RegisterFormVO registerForm, Model model, HttpSession session){
+        System.out.println(registerForm.getRole());
 
-//    @ResponseBody
-//    @PostMapping("/login2")
-//    public String login2(HttpServletRequest request, Model model, HttpSession session) {
-//        // 这里密码应加密
-//
-//        UserDTO userDTO = userService.getUserRoleMenu("张三", "employee");
-//        return String.valueOf(JSONObject.parseObject(String.valueOf(userDTO)));
-//    }
+        return "/login";
+    }
 }

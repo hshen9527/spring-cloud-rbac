@@ -16,32 +16,32 @@
 		<div id="menu">
 			<ul class="current_page_item">
 				<li th:each="menu : ${user.menus}">
-					<span th:if = "${menu eq '客户管理'}">
+					<span th:if = "${menu.getMenu() eq '客户管理'}">
 					<a href="#" accesskey="1" title="">客户管理</a>
 					</span>
 				</li>
 				<li th:each="menu : ${user.menus}">
-					<span th:if = "${menu eq '系统设置'}">
+					<span th:if = "${menu.getMenu() eq '系统设置'}">
 					<a href="#" accesskey="2" title="">系统设置</a>
 					</span>
 				</li>
 				<li th:each="menu : ${user.menus}">
-					<span th:if = "${menu eq '角色管理'}">
+					<span th:if = "${menu.getMenu() eq '角色管理'}">
 					<a href="#" accesskey="3" title="">角色管理</a>
 					</span>
 				</li>
 				<li th:each="menu : ${user.menus}">
-					<span th:if = "${menu eq '订单管理'}">
+					<span th:if = "${menu.getMenu() eq '订单管理'}">
 					<a href="#" accesskey="4" title="">订单管理</a>
 					</span>
 				</li>
 				<li th:each="menu : ${user.menus}">
-					<span th:if = "${menu eq '部门管理'}">
+					<span th:if = "${menu.getMenu() eq '部门管理'}">
 					<a href="#" accesskey="5" title="">部门管理</a>
 					</span>
 				</li>
 				<li th:each="menu : ${user.menus}">
-					<span th:if = "${menu eq '销售管理'}">
+					<span th:if = "${menu.getMenu() eq '销售管理'}">
 					<a href="#" accesskey="6" title="">销售管理</a>
 					</span>
 				</li>

@@ -1,4 +1,3 @@
-  
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -15,14 +14,14 @@
             <div class="signup-box">
                 <div class="add-info">
                     <div class="hd">用户登录</div>
-                    <form th:action="@{/user/login}" method="post" id="_j_login_form" name="fileForm">
+                    <form th:action="@{/account/login}" th:object="${loginForm}" method="post" id="_j_login_form" name="fileForm" >
                         <div class="form-field">
-                            <input name="username" type="text" placeholder="您的账号" autocomplete="off"
+                            <input th:field="*{username}" name="username" type="text" placeholder="您的账号" autocomplete="off"
                                    data-verification-name="帐号"
                                    class="verification[required,maxSize[50],funcCall[checkShowCode]]" value=""/>
                         </div>
                         <div class="form-field">
-                            <input name="password" type="password" placeholder="您的密码"
+                            <input th:field="*{password}" name="password" type="password" placeholder="您的密码"
                                    autocomplete="off"
                                    data-verification-name="密码" class="verification[required,minSize[4],maxSize[50]]"/>
                         </div>
@@ -38,6 +37,10 @@
                         </div>
                         <div class="err-tip"></div>
                     </form>
+
+                </div>
+                <div class="bottom-link">
+                    还没有帐号?<a th:href="@{/register}">马上注册</a>
                 </div>
             </div>
         </div>

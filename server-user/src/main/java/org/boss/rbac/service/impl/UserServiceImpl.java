@@ -2,9 +2,8 @@ package org.boss.rbac.service.impl;
 
 import org.boss.rbac.persistence.RoleMapper;
 import org.boss.rbac.persistence.UserMapper;
-import org.boss.rbac.persistence.UserRoleMenuMapper;
 import org.boss.rbac.pojo.dto.UserDTO;
-import org.boss.rbac.pojo.po.RoleMenu;
+import org.boss.rbac.pojo.po.MenuPO;
 import org.boss.rbac.pojo.po.UserPO;
 import org.boss.rbac.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,46 +20,63 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleMapper roleMapper;
 
-    @Autowired
-    private UserRoleMenuMapper userRoleMenuMapper;
-
     /**
-     * 获得加密用户信息
+     * 前端传入UserDTO, 将其转换成PO，进入持久化层
+     * 实现增加用户的功能
      *
-     * @param username 用户名
-     * @return 这里用DTO中加密后的UserDTO
+     * @param user 用户信息
+     * @return
      */
-//    @Override
-//    public UserDTO getUser(String username) {
-//        // 假设这里取出的账号密码是加密的
-//        // 在后续加入加密功能
-//        return new UserDTO(userMapper.getUser(username));
-//    }
+    @Override
+    public boolean add(UserDTO user) {
+        UserPO userPO = new UserPO();
+        userPO.setUsername(user.getUsername());
+        userPO.setPassword(user.getPassword());
+        userPO.setRole(user.getRole());
+        return userMapper.add(userPO);
+    }
 
     /**
-     * 获得用户基本信息及所代表的角色
+     * 实现查询功能
      *
      * @param username 用户名称
      * @return
      */
     @Override
-    public UserPO getUser(String username) {
-        return userMapper.getUser(username);
+    public UserDTO query(String username) {
+        UserPO userPO = userMapper.query(username);
+        List<MenuPO> list = roleMapper.menuList(userPO.getRole());
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(userPO.getUsername());
+        userDTO.setPassword(userPO.getPassword());
+        userDTO.setRole(userPO.getRole());
+        userDTO.setMenus(list);
+        return userDTO;
     }
 
     /**
-     * 获得角色可见的Menu菜单
+     * 实现用户修改
      *
-     * @param role 角色名称
+     * @param user 用户修改后的信息
      * @return
      */
     @Override
-    public List<RoleMenu> getlist(String role) {
-        return roleMapper.getlist(role);
+    public boolean edit(UserDTO user) {
+        UserPO userPO = new UserPO();
+        userPO.setUsername(user.getUsername());
+        userPO.setPassword(user.getPassword());
+        userPO.setRole(user.getRole());
+        return userMapper.edit(userPO);
     }
 
-//    @Override
-//    public UserDTO getUserRoleMenu(String username, String role) {
-//        return userRoleMenuMapper.getUserRoleMenu(username, role);
-//    }
+    /**
+     * 根据用户角色获得用户menu信息
+     *
+     * @param role
+     * @return
+     */
+    @Override
+    public List<MenuPO> menuList(String role) {
+        return roleMapper.menuList(role);
+    }
 }
