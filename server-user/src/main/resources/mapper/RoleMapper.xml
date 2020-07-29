@@ -6,10 +6,30 @@
     <!-- 考虑到并发，中吧率不高，这里不设置二级缓存 -->
     <!--<cache/>-->
 
+    <insert id="add" parameterType="org.boss.rbac.pojo.po.RolePO">
+        INSERT INTO role_menu
+        (role, menu)
+        VALUES
+        (#{role.role}, #{role.menu})
+    </insert>
+
+    <insert id="addList" parameterType="java.util.List">
+        INSERT INTO role_menu
+        (role, menu)
+        VALUES
+        <foreach collection="roleList" item="it" index="index" separator=",">
+        (#{it.role}, #{it.menu})
+        </foreach>
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM role_menu
+        WHERE role = #{role}
+    </delete>
+
     <select id="menuList" parameterType="java.lang.String" resultType="org.boss.rbac.pojo.po.MenuPO">
         SELECT menu
         FROM role_menu
         WHERE role = #{role}
     </select>
-
 </mapper>

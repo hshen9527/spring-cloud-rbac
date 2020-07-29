@@ -2,10 +2,11 @@ package org.boss.rbac.pojo.po;
 
 import lombok.Data;
 
-import java.io.Serializable;
+import java.util.List;
 
 @Data
-public class MenuPO implements Serializable {
+public class RolePO {
 
+    private String role;
     private String menu;
 }

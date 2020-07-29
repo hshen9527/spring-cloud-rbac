@@ -2,13 +2,16 @@ package org.boss.rbac.service.impl;
 
 import org.boss.rbac.persistence.RoleMapper;
 import org.boss.rbac.persistence.UserMapper;
+import org.boss.rbac.pojo.dto.RoleDTO;
 import org.boss.rbac.pojo.dto.UserDTO;
 import org.boss.rbac.pojo.po.MenuPO;
+import org.boss.rbac.pojo.po.RolePO;
 import org.boss.rbac.pojo.po.UserPO;
 import org.boss.rbac.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +31,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean add(UserDTO user) {
+    public boolean addUser(UserDTO user) {
         UserPO userPO = new UserPO();
         userPO.setUsername(user.getUsername());
         userPO.setPassword(user.getPassword());
@@ -43,7 +46,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public UserDTO query(String username) {
+    public UserDTO queryUser(String username) {
         UserPO userPO = userMapper.query(username);
         List<MenuPO> list = roleMapper.menuList(userPO.getRole());
         UserDTO userDTO = new UserDTO();
@@ -61,22 +64,11 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean edit(UserDTO user) {
+    public boolean editUser(UserDTO user) {
         UserPO userPO = new UserPO();
         userPO.setUsername(user.getUsername());
         userPO.setPassword(user.getPassword());
         userPO.setRole(user.getRole());
         return userMapper.edit(userPO);
-    }
-
-    /**
-     * 根据用户角色获得用户menu信息
-     *
-     * @param role
-     * @return
-     */
-    @Override
-    public List<MenuPO> menuList(String role) {
-        return roleMapper.menuList(role);
     }
 }
