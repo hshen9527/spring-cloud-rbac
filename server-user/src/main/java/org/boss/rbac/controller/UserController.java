@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.boss.rbac.pojo.dto.UserDTO;
 import org.boss.rbac.pojo.vo.LoginFormVO;
 import org.boss.rbac.pojo.vo.RegisterFormVO;
+import org.boss.rbac.pojo.vo.UpdatePassFormVO;
 import org.boss.rbac.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,7 +64,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/account/login")
-    public String login(@ModelAttribute("loginForm") LoginFormVO loginForm, Model model, HttpSession session){
+    public String login(@ModelAttribute("loginForm") LoginFormVO loginForm,
+                        Model model, HttpSession session){
         if (!(loginForm.getUsername().equals("") || loginForm.getPassword().equals(""))){
             UserDTO userDTO = userService.query(loginForm.getUsername());
             if (userDTO.getPassword().equals(loginForm.getPassword())){
@@ -88,7 +90,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/account/register")
-    public String register(@ModelAttribute("registerForm") RegisterFormVO registerForm, Model model, HttpSession session){
+    public String register(@ModelAttribute("registerForm") RegisterFormVO registerForm,
+                           Model model, HttpSession session){
         if (registerForm.getPassword().equals(registerForm.getRpassword())){
             UserDTO userDTO = new UserDTO(registerForm);
             userService.add(userDTO);
