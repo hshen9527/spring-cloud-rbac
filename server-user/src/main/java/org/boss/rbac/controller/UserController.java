@@ -32,6 +32,10 @@ public class UserController {
      */
     @GetMapping("/login")
     public String login(Model model, HttpSession session){
+        if (session.getAttribute("user") != null){
+            model.addAttribute("user", session.getAttribute("user"));
+            return "/main";
+        }
         // index.html需要一个loginForm来存储登录信息
         model.addAttribute("loginForm", new LoginFormVO());
         return "/login";
@@ -78,6 +82,7 @@ public class UserController {
 
     /**
      * 实现用户注册功能
+     * 用户完成注册后跳转到主界面
      *
      * @param registerForm
      * @param model
@@ -86,8 +91,10 @@ public class UserController {
      */
     @PostMapping("/account/register")
     public String register(@ModelAttribute("registerForm") RegisterFormVO registerForm, Model model, HttpSession session){
-        System.out.println(registerForm.getRole());
-
-        return "/test";
+        UserDTO userDTO = new UserDTO(registerForm);
+        userService.add(userDTO);
+        model.addAttribute("user", userDTO);
+        session.setAttribute("user", userDTO);
+        return "/main";
     }
 }
