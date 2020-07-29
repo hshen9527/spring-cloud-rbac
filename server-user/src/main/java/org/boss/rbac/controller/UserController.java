@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import sun.rmi.log.LogInputStream;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -73,10 +71,10 @@ public class UserController {
                 session.setAttribute("user", userDTO);
                 return "/main";
             } else {
-                return "/test";
+                return "error";
             }
         } else {
-            return "/test";
+            return "error";
         }
     }
 
@@ -91,10 +89,15 @@ public class UserController {
      */
     @PostMapping("/account/register")
     public String register(@ModelAttribute("registerForm") RegisterFormVO registerForm, Model model, HttpSession session){
-        UserDTO userDTO = new UserDTO(registerForm);
-        userService.add(userDTO);
-        model.addAttribute("user", userDTO);
-        session.setAttribute("user", userDTO);
-        return "/main";
+        if (registerForm.getPassword().equals(registerForm.getRpassword())){
+            UserDTO userDTO = new UserDTO(registerForm);
+            userService.add(userDTO);
+            userDTO.setMenus(userService.menuList(userDTO.getRole()));
+            model.addAttribute("user", userDTO);
+            session.setAttribute("user", userDTO);
+            return "/main";
+        }else {
+            return "/error";
+        }
     }
 }

@@ -10,7 +10,7 @@
         INSERT INTO users
         (username, password, role)
         VALUES
-        (#{username}, #{password}, #{role})
+        (#{user.username}, #{user.password}, #{user.role})
     </insert>
     
     <select id="query" parameterType="java.lang.String" resultType="org.boss.rbac.pojo.po.UserPO">
