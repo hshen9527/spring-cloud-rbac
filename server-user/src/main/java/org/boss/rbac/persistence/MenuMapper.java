@@ -16,9 +16,6 @@ public interface MenuMapper {
     // 批量增加Menu
     boolean addList(@Param("menuList") List<MenuPO> list);
 
-    // 跟新Menu
-    boolean update(@Param("menu") MenuPO menuPO);
-
     // 删除Menu
-    boolean delete(@Param("menu") MenuPO menuPO);
+    boolean delete(@Param("menu") String menu);
 }

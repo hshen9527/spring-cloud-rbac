@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.boss.rbac.persistence.MenuMapper">
+    <!-- 考虑到并发，中吧率不高，这里不设置二级缓存 -->
+    <!--<cache/>-->
+
+    <insert id="add" parameterType="org.boss.rbac.pojo.po.MenuPO">
+        INSERT INTO menu
+        (name)
+        VALUES
+        (#{menu.menu})
+    </insert>
+
+    <insert id="addList" parameterType="java.util.List">
+        INSERT INTO menu
+        (name)
+        VALUES
+        <foreach collection="menuList" item="it" index="index" separator=",">
+            (#{it.menu})
+        </foreach>
+    </insert>
+
+    <delete id="delete" parameterType="org.boss.rbac.pojo.po.MenuPO">
+        DELETE FROM menu
+        WHERE name = #{menu}
+    </delete>
+
+</mapper>
