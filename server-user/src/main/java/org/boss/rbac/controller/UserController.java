@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.boss.rbac.pojo.dto.UserDTO;
 import org.boss.rbac.pojo.vo.LoginFormVO;
 import org.boss.rbac.pojo.vo.RegisterFormVO;
-import org.boss.rbac.pojo.vo.UpdatePassFormVO;
+import org.boss.rbac.pojo.vo.UpdateFormVO;
 import org.boss.rbac.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +53,17 @@ public class UserController {
         return "/register";
     }
 
+    /**
+     * 实现用户修改
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/update")
+    public String update(Model model){
+        model.addAttribute("updateForm", new UpdateFormVO());
+        return "/update";
+    }
 
     /**
      * 实现用户登录功能
@@ -102,5 +113,21 @@ public class UserController {
         }else {
             return "/error";
         }
+    }
+
+    /**
+     * 实现用户修改信息
+     * 这里比较粗糙主要书实现修改功能
+     *
+     */
+    @PostMapping("/account/update")
+    public String update(@ModelAttribute("updateForm") UpdateFormVO updateForm,
+                         Model model, HttpSession session){
+        UserDTO userDTO = new UserDTO(updateForm);
+        userService.edit(userDTO);
+        userDTO.setMenus(userService.menuList(userDTO.getRole()));
+        model.addAttribute("user", userDTO);
+        session.setAttribute("user", userDTO);
+        return "/main";
     }
 }

@@ -21,7 +21,7 @@
 
     <update id="edit" parameterType="org.boss.rbac.pojo.po.UserPO">
         UPDATE users SET
-        password = #{user.password}
+        password = #{user.password},
         role = #{user.role}
         WHERE username = #{user.username}
     </update>

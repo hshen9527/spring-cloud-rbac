@@ -4,6 +4,7 @@ import lombok.Data;
 import org.boss.rbac.pojo.po.MenuPO;
 import org.boss.rbac.pojo.po.UserPO;
 import org.boss.rbac.pojo.vo.RegisterFormVO;
+import org.boss.rbac.pojo.vo.UpdateFormVO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,6 +27,13 @@ public class UserDTO implements Serializable {
         this.password = registerFormVO.getPassword();
         this.role = registerFormVO.getRole();
     }
+
+    public UserDTO(UpdateFormVO updateFormVO){
+        this.username = updateFormVO.getUsername();
+        this.password = updateFormVO.getPassword();
+        this.role = updateFormVO.getRole();
+    }
+
 
     public String getUsername() {
         return username;
